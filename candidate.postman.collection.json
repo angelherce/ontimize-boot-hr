@@ -1,0 +1,183 @@
+{
+	"info": {
+		"_postman_id": "7249c915-18a7-4016-8661-e55ac96c3832",
+		"name": "ONTIMIZE-BOOT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19149134"
+	},
+	"item": [
+		{
+			"name": "QUERY",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:33333/candidates/candidate?columns=ID,NAME,SURNAME",
+					"host": [
+						"localhost"
+					],
+					"port": "33333",
+					"path": [
+						"candidates",
+						"candidate"
+					],
+					"query": [
+						{
+							"key": "columns",
+							"value": "ID,NAME,SURNAME"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "QUERY",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"filter\": {\r\n     \"ID\": 0\r\n    },\r\n    \"columns\": [\"ID\",\"NAME\",\"SURNAME\",\"BIRTHDAY\",\"DNI\",\"PHONE\",\"EMAIL\",\"EDUCATION\",\r\n                \"SPECIALTIES\",\"STATUS\",\"ORIGIN\",\"WAGE_LEVEL\",\"EXPERIENCE_LEVEL\",\r\n                \"PROFILE\",\"COMMENT\",\"LINKEDIN\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:33333/candidates/candidate/search",
+					"host": [
+						"localhost"
+					],
+					"port": "33333",
+					"path": [
+						"candidates",
+						"candidate",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "INSERT",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"data\": {\r\n        \"PHONE\": \"555-444-8888\",\r\n        \"BIRTHDAY\": 788224700000,\r\n        \"SURNAME\": \"Wilson\",\r\n        \"EMAIL\": \"wwiilsoon@example.org\",\r\n        \"SPECIALTIES\": \"C#\",\r\n        \"NAME\": \"William\",\r\n        \"DNI\": \"88643946Z\"\r\n    },\r\n    \"sqltypes\": {\r\n        \"SPECIALTIES\": 12,\r\n        \"LINKEDIN\": 12,\r\n        \"PHONE\": 12,\r\n        \"EXPERIENCE_LEVEL\": 4,\r\n        \"STATUS\": 4,\r\n        \"EMAIL\": 12,\r\n        \"WAGE_LEVEL\": 2,\r\n        \"DNI\": 12,\r\n        \"ID\": 4,\r\n        \"ORIGIN\": 4,\r\n        \"EDUCATION\": 4,\r\n        \"COMMENT\": 12,\r\n        \"PROFILE\": 4,\r\n        \"SURNAME\": 12,\r\n        \"NAME\": 12,\r\n        \"BIRTHDAY\": 91\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:33333/candidates/candidate",
+					"host": [
+						"localhost"
+					],
+					"port": "33333",
+					"path": [
+						"candidates",
+						"candidate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"filter\" :{\r\n  \"ID\" :15\r\n },\r\n    \"data\": {\r\n        \"EMAIL\": \"wwilson@example.org\"\r\n    },\r\n    \"sqltypes\": {\r\n        \"SPECIALTIES\": 12,\r\n        \"LINKEDIN\": 12,\r\n        \"PHONE\": 12,\r\n        \"EXPERIENCE_LEVEL\": 4,\r\n        \"STATUS\": 4,\r\n        \"EMAIL\": 12,\r\n        \"WAGE_LEVEL\": 2,\r\n        \"DNI\": 12,\r\n        \"ID\": 4,\r\n        \"ORIGIN\": 4,\r\n        \"EDUCATION\": 4,\r\n        \"COMMENT\": 12,\r\n        \"PROFILE\": 4,\r\n        \"SURNAME\": 12,\r\n        \"NAME\": 12,\r\n        \"BIRTHDAY\": 91\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:33333/candidates/candidate",
+					"host": [
+						"localhost"
+					],
+					"port": "33333",
+					"path": [
+						"candidates",
+						"candidate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"filter\": {\r\n        \"ID\": 15\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:33333/candidates/candidate",
+					"host": [
+						"localhost"
+					],
+					"port": "33333",
+					"path": [
+						"candidates",
+						"candidate"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "demouser",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "demo",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
