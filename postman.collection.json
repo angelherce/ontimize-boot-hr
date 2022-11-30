@@ -248,26 +248,7 @@
 							"name": "YEAR",
 							"request": {
 								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"filter\": {\r\n        \"YEAR\": 2020\r\n    },\r\n    \"columns\": [\r\n        \"ID\",\r\n        \"DESCRIPTION\",\r\n        \"OFFER_STATUS\",\r\n        \"END_DATE\",\r\n        \"APPLICANT\",\r\n        \"ACRONYM\",\r\n        \"CREATION_DATE\",\r\n        \"START_DATE\"\r\n    ]\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HOST}}{{OFFER_CONTROLLER}}/yearOffers/search",
-									"host": [
-										"{{HOST}}{{OFFER_CONTROLLER}}"
-									],
-									"path": [
-										"yearOffers",
-										"search"
-									]
-								}
+								"header": []
 							},
 							"response": []
 						},
@@ -275,10 +256,61 @@
 							"name": "ACTUAL YEAR",
 							"request": {
 								"method": "POST",
+								"header": []
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "OFFER CANDIDATES DETAILS",
+					"item": [
+						{
+							"name": "QUERY",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{HOST}}{{OFFER_CONTROLLER}}/offerCandidateDetails?columns=ID,ACRONYM,DESCRIPTION,APPLICANT,DESC_STATUS,OFF_STATUS",
+									"host": [
+										"{{HOST}}{{OFFER_CONTROLLER}}"
+									],
+									"path": [
+										"offerCandidateDetails"
+									],
+									"query": [
+										{
+											"key": "columns",
+											"value": "ID,ACRONYM,DESCRIPTION,APPLICANT,DESC_STATUS,OFF_STATUS"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "QUERY",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "demouser",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "demo",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"columns\": [\r\n        \"ID\",\r\n        \"DESCRIPTION\",\r\n        \"OFFER_STATUS\",\r\n        \"END_DATE\",\r\n        \"APPLICANT\",\r\n        \"ACRONYM\",\r\n        \"CREATION_DATE\",\r\n        \"START_DATE\"\r\n    ]\r\n}",
+									"raw": "{\r\n    \"filter\": {\r\n        \"ID\": 0\r\n    },\r\n    \"columns\": [\"ID\",\"ID,ACRONYM\",\"DESCRIPTION\",\"APPLICANT\",\"DESC_STATUS\",\"OFF_STATUS\"]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -286,12 +318,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{HOST}}{{OFFER_CONTROLLER}}/currentOffers/search",
+									"raw": "{{HOST}}{{OFFER_CONTROLLER}}/offerCandidateDetails/search",
 									"host": [
 										"{{HOST}}{{OFFER_CONTROLLER}}"
 									],
 									"path": [
-										"currentOffers",
+										"offerCandidateDetails",
 										"search"
 									]
 								}
@@ -1335,10 +1367,6 @@
 					]
 				}
 			]
-		},
-		{
-			"name": "OFFERS OLD",
-			"item": []
 		}
 	],
 	"auth": {
