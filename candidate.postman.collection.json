@@ -7,142 +7,1338 @@
 	},
 	"item": [
 		{
-			"name": "QUERY",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:33333/candidates/candidate?columns=ID,NAME,SURNAME",
-					"host": [
-						"localhost"
-					],
-					"port": "33333",
-					"path": [
-						"candidates",
-						"candidate"
-					],
-					"query": [
+			"name": "CANDIDATES",
+			"item": [
+				{
+					"name": "QUERY",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}{{CANDIDATE_CONTROLLER}}/candidate?columns=ID,NAME,SURNAME",
+							"host": [
+								"{{HOST}}{{CANDIDATE_CONTROLLER}}"
+							],
+							"path": [
+								"candidate"
+							],
+							"query": [
+								{
+									"key": "columns",
+									"value": "ID,NAME,SURNAME"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "INSERT",
+					"event": [
 						{
-							"key": "columns",
-							"value": "ID,NAME,SURNAME"
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const ID = pm.response.json().data.ID;\r",
+									"pm.globals.set(\"ID_CANDIDATE_INSERT\", ID );\r",
+									"console.log(`ID_CANDIDATE_INSERT = ${pm.globals.get(\"ID_CANDIDATE_INSERT\")}`);"
+								],
+								"type": "text/javascript"
+							}
 						}
-					]
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": {\r\n        \"PHONE\": \"555-444-8888\",\r\n        \"BIRTHDAY\": 788224700000,\r\n        \"SURNAME\": \"Wilson\",\r\n        \"EMAIL\": \"wwiilsoon@example.org\",\r\n        \"SPECIALTIES\": \"C#\",\r\n        \"NAME\": \"William\",\r\n        \"DNI\": \"88643946Z\"\r\n    },\r\n    \"sqltypes\": {\r\n        \"SPECIALTIES\": 12,\r\n        \"LINKEDIN\": 12,\r\n        \"PHONE\": 12,\r\n        \"EXPERIENCE_LEVEL\": 4,\r\n        \"STATUS\": 4,\r\n        \"EMAIL\": 12,\r\n        \"WAGE_LEVEL\": 2,\r\n        \"DNI\": 12,\r\n        \"ID\": 4,\r\n        \"ORIGIN\": 4,\r\n        \"EDUCATION\": 4,\r\n        \"COMMENT\": 12,\r\n        \"PROFILE\": 4,\r\n        \"SURNAME\": 12,\r\n        \"NAME\": 12,\r\n        \"BIRTHDAY\": 91\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}{{CANDIDATE_CONTROLLER}}/candidate",
+							"host": [
+								"{{HOST}}{{CANDIDATE_CONTROLLER}}"
+							],
+							"path": [
+								"candidate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "QUERY",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "demouser",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "demo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"ID\": {{ID_CANDIDATE_INSERT}}\r\n    },\r\n    \"columns\": [\"ID\",\"NAME\",\"SURNAME\",\"BIRTHDAY\",\"DNI\",\"PHONE\",\"EMAIL\",\"EDUCATION\",\r\n                \"SPECIALTIES\",\"STATUS\",\"ORIGIN\",\"WAGE_LEVEL\",\"EXPERIENCE_LEVEL\",\r\n                \"PROFILE\",\"COMMENT\",\"LINKEDIN\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}{{CANDIDATE_CONTROLLER}}/candidate/search",
+							"host": [
+								"{{HOST}}{{CANDIDATE_CONTROLLER}}"
+							],
+							"path": [
+								"candidate",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\" :{\r\n        \"ID\": {{ID_CANDIDATE_INSERT}}\r\n    },\r\n    \"data\": {\r\n        \"EMAIL\": \"wwilson@example.org\"\r\n    },\r\n    \"sqltypes\": {\r\n        \"SPECIALTIES\": 12,\r\n        \"LINKEDIN\": 12,\r\n        \"PHONE\": 12,\r\n        \"EXPERIENCE_LEVEL\": 4,\r\n        \"STATUS\": 4,\r\n        \"EMAIL\": 12,\r\n        \"WAGE_LEVEL\": 2,\r\n        \"DNI\": 12,\r\n        \"ID\": 4,\r\n        \"ORIGIN\": 4,\r\n        \"EDUCATION\": 4,\r\n        \"COMMENT\": 12,\r\n        \"PROFILE\": 4,\r\n        \"SURNAME\": 12,\r\n        \"NAME\": 12,\r\n        \"BIRTHDAY\": 91\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}{{CANDIDATE_CONTROLLER}}/candidate",
+							"host": [
+								"{{HOST}}{{CANDIDATE_CONTROLLER}}"
+							],
+							"path": [
+								"candidate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"ID\": {{ID_CANDIDATE_INSERT}}\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}{{CANDIDATE_CONTROLLER}}/candidate",
+							"host": [
+								"{{HOST}}{{CANDIDATE_CONTROLLER}}"
+							],
+							"path": [
+								"candidate"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "QUERY",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"filter\": {\r\n     \"ID\": 0\r\n    },\r\n    \"columns\": [\"ID\",\"NAME\",\"SURNAME\",\"BIRTHDAY\",\"DNI\",\"PHONE\",\"EMAIL\",\"EDUCATION\",\r\n                \"SPECIALTIES\",\"STATUS\",\"ORIGIN\",\"WAGE_LEVEL\",\"EXPERIENCE_LEVEL\",\r\n                \"PROFILE\",\"COMMENT\",\"LINKEDIN\"]\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "OFFERS",
+			"item": [
+				{
+					"name": "BASIC EXPRESSION",
+					"item": [
+						{
+							"name": "01",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"filter\": {\r\n        \"@basic_expression\": {\r\n            \"lop\": \"START_DATE\",\r\n            \"op\": \">=\",\r\n            \"rop\": \"2020-01-15\"\r\n        }\r\n    },\r\n    \"columns\": [\r\n        \"ID\",\r\n        \"DESCRIPTION\",\r\n        \"OFFER_STATUS\",\r\n        \"END_DATE\",\r\n        \"APPLICANT\",\r\n        \"ACRONYM\",\r\n        \"CREATION_DATE\",\r\n        \"START_DATE\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}{{OFFER_CONTROLLER}}/offer/search",
+									"host": [
+										"{{HOST}}{{OFFER_CONTROLLER}}"
+									],
+									"path": [
+										"offer",
+										"search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "02",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"filter\": {\r\n        \"@basic_expression\": {\r\n            \"lop\": {\r\n                \"lop\": \"START_DATE\",\r\n                \"op\": \">=\",\r\n                \"rop\": \"2019-06-01\"\r\n            },\r\n            \"op\": \"AND\",\r\n            \"rop\": {\r\n                \"lop\": \"START_DATE\",\r\n                \"op\": \"<\",\r\n                \"rop\": \"2020-01-01\"\r\n            }\r\n        }\r\n    },\r\n    \"columns\": [\r\n        \"ID\",\r\n        \"DESCRIPTION\",\r\n        \"OFFER_STATUS\",\r\n        \"END_DATE\",\r\n        \"APPLICANT\",\r\n        \"ACRONYM\",\r\n        \"CREATION_DATE\",\r\n        \"START_DATE\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}{{OFFER_CONTROLLER}}/offer/search",
+									"host": [
+										"{{HOST}}{{OFFER_CONTROLLER}}"
+									],
+									"path": [
+										"offer",
+										"search"
+									]
+								}
+							},
+							"response": []
 						}
-					}
-				},
-				"url": {
-					"raw": "localhost:33333/candidates/candidate/search",
-					"host": [
-						"localhost"
-					],
-					"port": "33333",
-					"path": [
-						"candidates",
-						"candidate",
-						"search"
 					]
+				},
+				{
+					"name": "SEARCH BY YEAR",
+					"item": [
+						{
+							"name": "YEAR",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"filter\": {\r\n        \"YEAR\": 2020\r\n    },\r\n    \"columns\": [\r\n        \"ID\",\r\n        \"DESCRIPTION\",\r\n        \"OFFER_STATUS\",\r\n        \"END_DATE\",\r\n        \"APPLICANT\",\r\n        \"ACRONYM\",\r\n        \"CREATION_DATE\",\r\n        \"START_DATE\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}{{OFFER_CONTROLLER}}/yearOffers/search",
+									"host": [
+										"{{HOST}}{{OFFER_CONTROLLER}}"
+									],
+									"path": [
+										"yearOffers",
+										"search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ACTUAL YEAR",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"columns\": [\r\n        \"ID\",\r\n        \"DESCRIPTION\",\r\n        \"OFFER_STATUS\",\r\n        \"END_DATE\",\r\n        \"APPLICANT\",\r\n        \"ACRONYM\",\r\n        \"CREATION_DATE\",\r\n        \"START_DATE\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}{{OFFER_CONTROLLER}}/currentOffers/search",
+									"host": [
+										"{{HOST}}{{OFFER_CONTROLLER}}"
+									],
+									"path": [
+										"currentOffers",
+										"search"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "QUERY",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}{{OFFER_CONTROLLER}}/offer?columns=ID,ACRONYM,DESCRIPTION,APPLICANT,OFFER_STATUS",
+							"host": [
+								"{{HOST}}{{OFFER_CONTROLLER}}"
+							],
+							"path": [
+								"offer"
+							],
+							"query": [
+								{
+									"key": "columns",
+									"value": "ID,ACRONYM,DESCRIPTION,APPLICANT,OFFER_STATUS"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "INSERT",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const ID = pm.response.json().data.ID;\r",
+									"pm.globals.set(\"ID_OFFER_INSERT\", ID );\r",
+									"console.log(`ID_OFFER_INSERT = ${pm.globals.get(\"ID_OFFER_INSERT\")}`);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": {\r\n        \"ACRONYM\": \"Acronym-Proof\",\r\n        \"DESCRIPTION\": \"Description-Proof\",\r\n        \"APPLICANT\": \"Aplicant-Proof\",\r\n        \"OFFER_STATUS\": 0\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}{{OFFER_CONTROLLER}}/offer",
+							"host": [
+								"{{HOST}}{{OFFER_CONTROLLER}}"
+							],
+							"path": [
+								"offer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "QUERY",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "demouser",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "demo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"ID\": {{ID_OFFER_INSERT}}\r\n    },\r\n    \"columns\": [\"ID\",\"ID,ACRONYM\",\"DESCRIPTION\",\"APPLICANT\",\"OFFER_STATUS\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}{{OFFER_CONTROLLER}}/offer/search",
+							"host": [
+								"{{HOST}}{{OFFER_CONTROLLER}}"
+							],
+							"path": [
+								"offer",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\" :{\r\n        \"ID\": {{ID_OFFER_INSERT}}\r\n    },\r\n    \"data\": {\r\n        \"ACRONYM\": \"Acronym-Proof-Edited\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}{{OFFER_CONTROLLER}}/offer",
+							"host": [
+								"{{HOST}}{{OFFER_CONTROLLER}}"
+							],
+							"path": [
+								"offer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filter\": {\r\n        \"ID\": {{ID_OFFER_INSERT}}\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}{{OFFER_CONTROLLER}}/offer",
+							"host": [
+								"{{HOST}}{{OFFER_CONTROLLER}}"
+							],
+							"path": [
+								"offer"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "INSERT",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"data\": {\r\n        \"PHONE\": \"555-444-8888\",\r\n        \"BIRTHDAY\": 788224700000,\r\n        \"SURNAME\": \"Wilson\",\r\n        \"EMAIL\": \"wwiilsoon@example.org\",\r\n        \"SPECIALTIES\": \"C#\",\r\n        \"NAME\": \"William\",\r\n        \"DNI\": \"88643946Z\"\r\n    },\r\n    \"sqltypes\": {\r\n        \"SPECIALTIES\": 12,\r\n        \"LINKEDIN\": 12,\r\n        \"PHONE\": 12,\r\n        \"EXPERIENCE_LEVEL\": 4,\r\n        \"STATUS\": 4,\r\n        \"EMAIL\": 12,\r\n        \"WAGE_LEVEL\": 2,\r\n        \"DNI\": 12,\r\n        \"ID\": 4,\r\n        \"ORIGIN\": 4,\r\n        \"EDUCATION\": 4,\r\n        \"COMMENT\": 12,\r\n        \"PROFILE\": 4,\r\n        \"SURNAME\": 12,\r\n        \"NAME\": 12,\r\n        \"BIRTHDAY\": 91\r\n    }\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "MASTERS",
+			"item": [
+				{
+					"name": "EDUCATION",
+					"item": [
+						{
+							"name": "QUERY",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/education?columns=ID,DESCRIPTION",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"education"
+									],
+									"query": [
+										{
+											"key": "columns",
+											"value": "ID,DESCRIPTION"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "INSERT",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const ID = pm.response.json().data.ID;\r",
+											"pm.globals.set(\"ID_EDUCATION_INSERT\", ID );\r",
+											"console.log(`ID_EDUCATION_INSERT = ${pm.globals.get(\"ID_EDUCATION_INSERT\")}`)\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"data\": {\r\n        \"DESCRIPTION\": \"Education-Description-Proof\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/education",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"education"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "QUERY",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "demouser",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "demo",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"filter\": {\r\n     \"ID\": {{ID_EDUCATION_INSERT}}\r\n    },\r\n    \"columns\": [\"ID\",\"DESCRIPTION\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/education/search",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"education",
+										"search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"filter\" :{\r\n     \"ID\" : {{ID_EDUCATION_INSERT}}\r\n    },\r\n    \"data\": {\r\n        \"DESCRIPTION\": \"ExperienceLevel-Description-Proof-Edited\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/education",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"education"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"filter\": {\r\n        \"ID\": {{ID_EDUCATION_INSERT}}\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/education",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"education"
+									]
+								}
+							},
+							"response": []
 						}
-					}
+					]
 				},
-				"url": {
-					"raw": "localhost:33333/candidates/candidate",
-					"host": [
-						"localhost"
-					],
-					"port": "33333",
-					"path": [
-						"candidates",
-						"candidate"
+				{
+					"name": "EXPERIENCE LEVEL",
+					"item": [
+						{
+							"name": "QUERY",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/origin?columns=ID,DESCRIPTION",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"origin"
+									],
+									"query": [
+										{
+											"key": "columns",
+											"value": "ID,DESCRIPTION"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "INSERT",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const ID = pm.response.json().data.ID;\r",
+											"pm.globals.set(\"ID_ORIGIN_INSERT\", ID );\r",
+											"console.log(`ID_ORIGIN_INSERT = ${pm.globals.get(\"ID_ORIGIN_INSERT\")}`);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"data\": {\r\n        \"DESCRIPTION\": \"Origin-Description-Proof\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/origin",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"origin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "QUERY",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "demouser",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "demo",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"filter\": {\r\n     \"ID\": {{ID_ORIGIN_INSERT}}\r\n    },\r\n    \"columns\": [\"ID\",\"DESCRIPTION\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/origin/search",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"origin",
+										"search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"filter\" :{\r\n     \"ID\" : {{ID_ORIGIN_INSERT}}\r\n    },\r\n    \"data\": {\r\n        \"DESCRIPTION\": \"Origin-Description-Proof-Edited\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/origin",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"origin"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"filter\": {\r\n        \"ID\": {{ID_ORIGIN_INSERT}}\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/origin",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"origin"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ORIGIN",
+					"item": [
+						{
+							"name": "QUERY",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/experienceLevel?columns=ID,DESCRIPTION",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"experienceLevel"
+									],
+									"query": [
+										{
+											"key": "columns",
+											"value": "ID,DESCRIPTION"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "INSERT",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const ID = pm.response.json().data.ID;\r",
+											"pm.globals.set(\"ID_EXPERIENCE_LEVEL_INSERT\", ID );\r",
+											"console.log(`ID_EXPERIENCE_LEVEL_INSERT = ${pm.globals.get(\"ID_EXPERIENCE_LEVEL_INSERT\")}`);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"data\": {\r\n        \"DESCRIPTION\": \"ExperienceLevel-Description-Proof\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/experienceLevel",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"experienceLevel"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "QUERY",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "demouser",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "demo",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"filter\": {\r\n     \"ID\": {{ID_EXPERIENCE_LEVEL_INSERT}}\r\n    },\r\n    \"columns\": [\"ID\",\"DESCRIPTION\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/experienceLevel/search",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"experienceLevel",
+										"search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"filter\" :{\r\n     \"ID\" : {{ID_EXPERIENCE_LEVEL_INSERT}}\r\n    },\r\n    \"data\": {\r\n        \"DESCRIPTION\": \"Education-Description-Proof-Edited\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/experienceLevel",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"experienceLevel"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"filter\": {\r\n        \"ID\": {{ID_EXPERIENCE_LEVEL_INSERT}}\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/experienceLevel",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"experienceLevel"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PROFILE",
+					"item": [
+						{
+							"name": "QUERY",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/profile?columns=ID,DESCRIPTION",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"profile"
+									],
+									"query": [
+										{
+											"key": "columns",
+											"value": "ID,DESCRIPTION"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "INSERT",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const ID = pm.response.json().data.ID;\r",
+											"pm.globals.set(\"ID_PROFILE_INSERT\", ID );\r",
+											"console.log(`ID_PROFILE_INSERT = ${pm.globals.get(\"ID_PROFILE_INSERT\")}`);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"data\": {\r\n        \"DESCRIPTION\": \"Profile-Description-Proof\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/profile",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "QUERY",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "demouser",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "demo",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"filter\": {\r\n     \"ID\": {{ID_PROFILE_INSERT}}\r\n    },\r\n    \"columns\": [\"ID\",\"DESCRIPTION\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/profile/search",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"profile",
+										"search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"filter\" :{\r\n     \"ID\" : {{ID_PROFILE_INSERT}}\r\n    },\r\n    \"data\": {\r\n        \"DESCRIPTION\": \"Profile-Description-Proof-Edited\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/profile",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"filter\": {\r\n        \"ID\": {{ID_PROFILE_INSERT}}\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/profile",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"profile"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "STATUS",
+					"item": [
+						{
+							"name": "QUERY",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/status?columns=ID,DESCRIPTION",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"status"
+									],
+									"query": [
+										{
+											"key": "columns",
+											"value": "ID,DESCRIPTION"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "INSERT",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const ID = pm.response.json().data.ID;\r",
+											"pm.globals.set(\"ID_STATUS_INSERT\", ID );\r",
+											"console.log(`ID_STATUS_INSERT = ${pm.globals.get(\"ID_STATUS_INSERT\")}`);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"data\": {\r\n        \"DESCRIPTION\": \"Status-Description-Proof\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/status",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "QUERY",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "demouser",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "demo",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"filter\": {\r\n     \"ID\": {{ID_STATUS_INSERT}}\r\n    },\r\n    \"columns\": [\"ID\",\"DESCRIPTION\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/status/search",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"status",
+										"search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"filter\" :{\r\n     \"ID\" : {{ID_STATUS_INSERT}}\r\n    },\r\n    \"data\": {\r\n        \"DESCRIPTION\": \"Status-Description-Proof-Edited\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/status",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"filter\": {\r\n        \"ID\": {{ID_STATUS_INSERT}}\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST}}{{MASTER_CONTROLLER}}/status",
+									"host": [
+										"{{HOST}}{{MASTER_CONTROLLER}}"
+									],
+									"path": [
+										"status"
+									]
+								}
+							},
+							"response": []
+						}
 					]
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "UPDATE",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n \"filter\" :{\r\n  \"ID\" :15\r\n },\r\n    \"data\": {\r\n        \"EMAIL\": \"wwilson@example.org\"\r\n    },\r\n    \"sqltypes\": {\r\n        \"SPECIALTIES\": 12,\r\n        \"LINKEDIN\": 12,\r\n        \"PHONE\": 12,\r\n        \"EXPERIENCE_LEVEL\": 4,\r\n        \"STATUS\": 4,\r\n        \"EMAIL\": 12,\r\n        \"WAGE_LEVEL\": 2,\r\n        \"DNI\": 12,\r\n        \"ID\": 4,\r\n        \"ORIGIN\": 4,\r\n        \"EDUCATION\": 4,\r\n        \"COMMENT\": 12,\r\n        \"PROFILE\": 4,\r\n        \"SURNAME\": 12,\r\n        \"NAME\": 12,\r\n        \"BIRTHDAY\": 91\r\n    }\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:33333/candidates/candidate",
-					"host": [
-						"localhost"
-					],
-					"port": "33333",
-					"path": [
-						"candidates",
-						"candidate"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "DELETE",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"filter\": {\r\n        \"ID\": 15\r\n    }\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:33333/candidates/candidate",
-					"host": [
-						"localhost"
-					],
-					"port": "33333",
-					"path": [
-						"candidates",
-						"candidate"
-					]
-				}
-			},
-			"response": []
+			"name": "OFFERS OLD",
+			"item": []
 		}
 	],
 	"auth": {
@@ -178,6 +1374,28 @@
 					""
 				]
 			}
+		}
+	],
+	"variable": [
+		{
+			"key": "HOST",
+			"value": "localhost:33333",
+			"type": "string"
+		},
+		{
+			"key": "CANDIDATE_CONTROLLER",
+			"value": "/candidates",
+			"type": "string"
+		},
+		{
+			"key": "OFFER_CONTROLLER",
+			"value": "/offers",
+			"type": "string"
+		},
+		{
+			"key": "MASTER_CONTROLLER",
+			"value": "/master",
+			"type": "string"
 		}
 	]
 }
